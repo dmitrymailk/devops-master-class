@@ -1,152 +1,153 @@
-# Docker
+# Docker Commands
 
-## Projects
-- Hello World - Java, JavaScript and Python
-- 2 Microservices - Currency Exchange and Currency Conversion
+1. Проверить версию докера
 
-## Steps
-- Step 01 - Docker and DevOps - Installation and Introduction
-- Step 02 - Your First Docker Usecase
-- Step 03 - Important Docker Concepts - Registry, Repository, Tag, Image and Container
-- Step 04 - Playing with Docker Images - Java, JavaScript and Python
-- Step 05 - Playing with Docker - Detached Mode and Logs
-- Step 06 - Playing with Docker Images and Containers
-- Step 07 - Understanding Docker Architecture - Docker Client, Docker Engine
-- Step 08 - Understanding Docker Popularity - My 3 Top Reasons
-- Step 09 - Learning Docker Images - Commands
-- Step 10 - Learning Docker Containers - Commands
-- Step 11 - Learning Docker Commands - system and stats
-- Step 12 - Building Docker Images for Python Application
-- Step 13 - Understanding creation of Docker Images in Depth
-- Step 14 - Pushing Python App Docker Image to Docker Hub
-- Step 15 - Building and Pushing Docker Image for Node JavaScript App
-- Step 16 - Building and Pushing Docker Image for Java Application
-- Step 17 - Building Efficient Docker Images - Improving Layer Caching
-- Step 18 - Understanding ENTRYPOINT vs CMD
-- Step 19 - Docker and Microservices - Quick Start
-- Step 20 - Introduction to Microservices - CE and CC
-- Step 21 - Running Microservices as Docker Containers
-- Step 22 - Using Docker Link to Connect Microservices
-- Step 23 - Using Custom Networking to Connect Microservices
-- Step 24 - Using Docker Compose to Simplify Microservices Launch
-- Step 25 - Understanding Docker Compose further
+   docker --version
 
+2. Создать и запустить контейнер по имени "in28min/hello-world-python:0.0.1.RELEASE, пробросить порты из контейнера на реальную машину, в данном случае мы откроем на реальной машине 5000 порт и будем обращаться к 5000 в докер контейнере. Далее все аналогично только для других образов.
 
-## Registry and Repositories
+   docker run -p 5000:5000 in28min/hello-world-python:0.0.1.RELEASE
 
-- https://hub.docker.com/u/in28min
-- https://hub.docker.com/r/in28min/hello-world-java
-- https://hub.docker.com/r/in28min/hello-world-python
-- https://hub.docker.com/r/in28min/hello-world-nodejs
+   docker run -p 5000:5000 in28min/hello-world-java:0.0.1.RELEASE
 
-# Commands
+   docker run -p 5000:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
 
-```
-docker --version
-docker run -p 5000:5000 in28min/hello-world-python:0.0.1.RELEASE
-docker run -p 5000:5000 in28min/hello-world-java:0.0.1.RELEASE
-docker run -p 5000:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
-docker run -d -p 5000:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
-docker run -d -p 5001:5000 in28min/hello-world-python:0.0.1.RELEASE
-docker logs 04e52ff9270f5810eefe1f77222852dc1461c22440d4ecd6228b5c38f09d838e
-docker logs c2ba
-docker images
-docker container ls
-docker container ls -a
-docker container stop f708b7ee1a8b
-docker run -d -p 5001:8080 in28min/hello-world-rest-api:0.0.1.RELEASE
-docker pull mysql
-docker search mysql
-docker image history in28min/hello-world-java:0.0.1.RELEASE
-docker image history 100229ba687e
-docker image inspect 100229ba687e
-docker image remove mysql
-docker image remove in28min/hello-world-java:0.0.1.RELEASE
-docker container rm 3e657ae9bd16
-docker container ls -a
-docker container pause 832
-docker container unpause 832
-docker container stop 832
-docker container inspect ff521fa58db3
-docker container prune
-docker system
-docker system df
-docker system info
-docker system prune -a
-docker top 9009722eac4d
-docker stats 9009722eac4d
-docker container run -p 5000:5000 -d -m 512m in28min/hello-world-java:0.0.1.RELEASE
-docker container run -p 5000:5000 -d -m 512m --cpu-quota=50000  in28min/hello-world-java:0.0.1.RELEASE
-docker system events
+3. Создать и запустить контейнер, но сделать это в фоне
 
-docker container stats 4faca1ea914e3e4587d1d790948ec6cb8fa34f26e900c12632fd64d4722fd59a
-docker stats 42f170966ce613d2a16d7404495af7b3295e01aeb9142e1fa1762bbdc581f502
+   docker run -d -p 5000:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
 
-cd /in28Minutes/git/devops-master-class/projects/hello-world/hello-world-python 
-docker build -t in28min/hello-world-python:0.0.2.RELEASE . 
-docker run -p 5000:5000 -d in28min/hello-world-python:0.0.2.RELEASE
-docker history e66dc383f7a0
-docker push in28min/hello-world-python:0.0.2.RELEASE
+4. Создать и запустить контейнер в фоне, только теперь на настоящей машине он будет доступен по порту 5001
 
-cd ../hello-world-nodejs/
-docker build -t in28min/hello-world-nodejs:0.0.2.RELEASE . 
-docker container run -d -p 5000:5000 in28min/hello-world-nodejs:0.0.2.RELEASE
-docker push in28min/hello-world-nodejs:0.0.2.RELEASE
+   docker run -d -p 5001:5000 in28min/hello-world-python:0.0.1.RELEASE
 
-cd ../hello-world-java/
-docker build -t in28min/hello-world-java:0.0.2.RELEASE . 
-docker run -d -p 5000:5000 in28min/hello-world-java:0.0.2.RELEASE
-docker push in28min/hello-world-java:0.0.2.RELEASE
+5. Получить логи конкретного контейнера по его ID
 
-docker run -d -p 5001:5000 in28min/hello-world-nodejs:0.0.3.RELEASE ping google.com
+   docker logs 04e52ff9270f5810eefe1f77222852dc1461c22440d4ecd6228b5c38f09d838e
 
+   docker logs c2ba
 
-docker run -d -p 8000:8000 --name=currency-exchange in28min/currency-exchange:0.0.1-RELEASE
-docker run -d -p 8100:8100 --name=currency-conversion in28min/currency-conversion:0.0.1-RELEASE
+6. Показать список всех локально доступных образов(образ это типа класса в языках программирования) на машине
 
-docker network ls
-docker network inspect bridge
+   docker images
 
-docker run -d -p 8100:8100 --env CURRENCY_EXCHANGE_SERVICE_HOST=http://currency-exchange --name=currency-conversion --link currency-exchange in28min/currency-conversion:0.0.1-RELEASE
+7. Показать список работающих контейнеров
 
-docker network create currency-network
-docker container stop currency-exchange
-docker container stop currency-conversion
-docker run -d -p 8000:8000 --name=currency-exchange --network=currency-network in28min/currency-exchange:0.0.1-RELEASE
-docker run -d -p 8100:8100 --env CURRENCY_EXCHANGE_SERVICE_HOST=http://currency-exchange --name=currency-conversion --network=currency-network in28min/currency-conversion:0.0.1-RELEASE
+   docker container ls
 
-docker-compose --version
-cd ../../microservices/
-docker-compose up
-docker-compose up -d
-docker container ls
-docker network ls
-docker network inspect microservices_currency-compose-network
-docker-compose down
-docker container ls -a
-docker system prune -a
-docker-compose config
-docker-compose images
-docker-compose ps
-docker-compose top
+8. Показать все контейнеры
 
-```
+   docker container ls -a
 
+9. Остановить какой-то контейнер по его ID
 
-```
-docker build -t in28min/hello-world-java:0.0.1.RELEASE .
-docker push in28min/hello-world-java:0.0.1.RELEASE
+   docker container stop f708b7ee1a8b
 
-docker build -t in28min/hello-world-python:0.0.1.RELEASE .
-docker push in28min/hello-world-python:0.0.1.RELEASE
+10. Скачать образ под названием "mysql"
 
-docker build -t in28min/hello-world-nodejs:0.0.1.RELEASE .
-docker push in28min/hello-world-nodejs:0.0.1.RELEASE
-```
+    docker pull mysql
 
-### Host Networking in Docker for Mac and Windows
+11. Найти на dockerhub образ с названием "mysql"
 
-- https://docs.docker.com/network/host/
+    docker search mysql
 
->The host networking driver only works on Linux hosts, and is not supported on Docker Desktop for Mac, Docker Desktop for Windows, or Docker EE for Windows Server.
+12. Посмотреть историю изменений какого-то образа, в данном случае образа под названием "in28min/hello-world-java:0.0.1.RELEASE" или с ID 100229ba687e
 
+    docker image history in28min/hello-world-java:0.0.1.RELEASE
+
+    docker image history 100229ba687e
+
+13. Посмотреть метаданные которые идут вместе с образом. В данном случае нас интересует образ с ID 100229ba687e
+
+    docker image inspect 100229ba687e
+
+14. Удалить образ локально, чтобы он не занимал место на диске.
+
+    docker image remove mysql
+
+    docker image remove in28min/hello-world-java:0.0.1.RELEASE
+
+15. Удалить локально контейнер, по его ID.
+
+    docker container rm 3e657ae9bd16
+
+16. Поставить контейнер по, по его ID. После того как мы поставим его на паузу, он не будет принимать ни каких запросов. Стейт запущенного приложения сохранится.
+
+    docker container pause 832
+
+17. Снять с паузы контейнер
+
+    docker container unpause 832
+
+18. Остановить контейнер. Стейт приложения сбросится.
+
+    docker container stop 832
+
+19. Удалить все остановленные контейнеры.
+
+    docker container prune
+
+20. Узнать общую информацию о занимаемом пространстве образов и контейнеров
+
+    docker system df
+
+21. Узнать подробную информацию о самом докере
+
+    docker system info
+
+22. Удалит все остановленные контейнеры, все networks которые нигде не используются, все образы без контейнеров, очистит кеш
+
+    docker system prune -a
+
+23. Показать информацию о потреблении CPU, оперативки, памяти, использование сети
+
+    docker stats 9009722eac4d
+
+24. Создать и запустить контейнер с ограничением по памяти в 512 mb и ограничением в использование CPU в 50к, это значит что если машина имеет 8 ядер она задействует из них только 5. Если бы было 15к тогда только 1.5 ядра и тд.
+
+    docker container run -p 5000:5000 -d -m 512m --cpu-quota=50000 in28min/hello-world-java:0.0.1.RELEASE
+
+25. Собрать образ из Dockerfile и назвать его "in28min/hello-world-python:0.0.2.RELEASE"
+
+    docker build -t in28min/hello-world-python:0.0.2.RELEASE .
+
+26. Запушить образ с именем "in28min/hello-world-python:0.0.2.RELEASE" на dockerhub
+
+    docker push in28min/hello-world-python:0.0.2.RELEASE
+
+27. Создать и запустить контейнер, заменив у него начальную команду из CMD на "ping google.com". Именно поэтому желательно использовать ENTRYPOINT, если мы хотим чтобы эта команда точно исполнилась.
+
+    docker run -d -p 5001:5000 in28min/hello-world-nodejs:0.0.3.RELEASE ping google.com
+
+28. Создать и запустить контейнер с именем "currency-exchange"
+
+    docker run -d -p 8000:8000 --name=currency-exchange in28min/currency-exchange:0.0.1-RELEASE
+
+29. Проверить все доступные networks.
+
+    docker network ls
+
+30. Проверить информацию о сетевом драйвере по умолчанию.
+
+    docker network inspect bridge
+
+31. Создать bridge с названием "currency-network". Более подробно про эту команду можно прочитать [тут](https://docs.docker.com/engine/reference/commandline/network_create/)
+
+    docker network create currency-network
+
+32. Остановить сеть с названием "currency-exchange"
+
+    docker container stop currency-exchange
+
+33. docker-compose это оркестратор докер контейнеров. Если раньше мы передавали параметры через специальные параметры, когда запускали контейнер или создавали сеть. То теперь все эти параметры можно прописать в yml файле и передать его в docker-compose. Он автоматически создаст все нужные микросервисы
+
+    docker-compose --version
+
+34. Запустит и начнет сборку микросервисов. Изначально он ищет файл с названием docker-compose.yml в дирректории где была запущена данная команда. Второй вариант аналогично docker. Он запустит сборку в фоне.
+
+    docker-compose up
+
+    docker-compose up -d
+
+35. Оставновить все связанные микросервисы
+
+    docker-compose down
